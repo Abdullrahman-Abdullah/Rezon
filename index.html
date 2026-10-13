@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090909"><meta name="description" content="برنامج شخصي لتتبع التغذية والجيم وإعادة تشكيل الجسم">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png">
+<title>REZON | لياقة وتغذية</title><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><div class="brand-mark">R</div><div><strong>REZON</strong><small>FITNESS • NUTRITION • PROGRESS</small></div></div>
+  <button class="icon-btn" id="settingsBtn" aria-label="الإعدادات">⚙</button>
+</header>
+<main>
+  <section class="welcome"><div><span class="eyebrow">مساحتك الشخصية</span><h1>أهلًا بك في REZON 👋</h1><p>خطوة ثابتة كل يوم تصنع فرقًا.</p></div><div class="date-pill" id="todayLabel"></div></section>
+  <nav class="tabs" aria-label="التنقل">
+    <button class="tab active" data-tab="home">الرئيسية</button><button class="tab" data-tab="food">الغذاء</button><button class="tab" data-tab="workout">التمرين</button><button class="tab" data-tab="progress">التقدم</button>
+  </nav>
+
+  <section class="view active" id="view-home">
+    <div class="hero-card">
+      <div class="hero-head"><div><span class="muted">هدف السعرات اليومي</span><div class="big-number"><span id="calRemain">2700</span><small> سعرة متبقية</small></div></div><div class="ring" id="calRing"><div><strong id="calEaten">0</strong><small>مأكولة</small></div></div></div>
+      <div class="bar"><span id="calBar"></span></div>
+      <div class="macro-grid">
+        <div class="macro"><div class="macro-top"><span>بروتين</span><b><span id="proteinNow">0</span><small> / 180 غ</small></b></div><div class="mini-bar"><span id="proteinBar" class="protein"></span></div></div>
+        <div class="macro"><div class="macro-top"><span>كربوهيدرات</span><b><span id="carbNow">0</span><small> / 315 غ</small></b></div><div class="mini-bar"><span id="carbBar" class="carb"></span></div></div>
+        <div class="macro"><div class="macro-top"><span>دهون</span><b><span id="fatNow">0</span><small> / 80 غ</small></b></div><div class="mini-bar"><span id="fatBar" class="fat"></span></div></div>
+      </div>
+    </div>
+    <div class="section-title"><div><span class="eyebrow">ملخص اليوم</span><h2>متابعة سريعة</h2></div><button class="text-btn" data-goto="progress">كل التقدم ←</button></div>
+    <div class="stats-grid">
+      <div class="stat-card"><span class="stat-icon">⚖️</span><span class="muted">آخر وزن</span><strong><span id="homeWeight">93</span> <small>كغ</small></strong><small id="weightDelta">سجّل وزنك بانتظام</small></div>
+      <div class="stat-card"><span class="stat-icon">📏</span><span class="muted">محيط الخصر</span><strong><span id="homeWaist">—</span> <small>سم</small></strong><small>قِسه مرة أسبوعيًا</small></div>
+      <div class="stat-card"><span class="stat-icon">💧</span><span class="muted">الماء</span><strong><span id="waterNow">0</span> <small>/ 2500 مل</small></strong><button class="small-btn" id="addWater">+ 250 مل</button></div>
+      <div class="stat-card"><span class="stat-icon">🏋️</span><span class="muted">تمرين اليوم</span><strong id="todayWorkout">غير مسجل</strong><button class="small-btn" data-goto="workout">افتح التمرين</button></div>
+    </div>
+    <div class="section-title"><div><span class="eyebrow">خطوة اليوم</span><h2>أضف وجبتك</h2></div></div>
+    <div class="quick-actions"><button class="action-card" data-goto="food"><span>📸</span><b>صوّر وجبتك</b><small>تقدير غذائي ومراجعة</small></button><button class="action-card" id="quickWeight"><span>⚖️</span><b>سجّل الوزن</b><small>تابع متوسطك الأسبوعي</small></button></div>
+    <p class="footnote">الأرقام أهداف بداية قابلة للتعديل وليست وصفة طبية. اعتمد متوسط الوزن ومحيط الخصر والأداء لتقييم التقدم.</p>
+  </section>
+
+  <section class="view" id="view-food">
+    <div class="page-heading"><span class="eyebrow">التغذية</span><h1>سجل الوجبات</h1><p>صوّر الطعام أو أضفه يدويًا. تقدير الصورة يحتاج إلى خدمة ذكاء اصطناعي مهيّأة.</p></div>
+    <div class="card">
+      <div class="card-heading"><div><h2>📷 تحليل صورة الطعام</h2><p>ارفع صورة واضحة للوجبة مع إدخال الوزن إن أمكن.</p></div><span class="tag">تجريبي</span></div>
+      <label class="upload-box" for="foodPhoto"><span class="upload-icon">＋</span><strong>اختيار صورة الوجبة</strong><small>JPG أو PNG • الصورة تبقى على جهازك ما لم تضغط تحليل AI</small><input id="foodPhoto" type="file" accept="image/*" capture="environment"></label>
+      <img id="photoPreview" class="photo-preview hidden" alt="معاينة الوجبة">
+      <div class="form-row"><label>اسم الوجبة / ملاحظات<input id="photoMealName" placeholder="مثال: دجاج مع أرز"></label><label>الكمية التقريبية (غ)<input id="photoGrams" type="number" min="1" value="350"></label></div>
+      <div class="ai-status" id="aiStatus">تحليل الصورة بالذكاء الاصطناعي غير مفعّل بعد. يمكنك تسجيل الوجبة يدويًا، أو إعداد عنوان خدمة AI في الإعدادات.</div>
+      <div class="button-row"><button class="btn primary" id="analyzeBtn">تحليل الصورة بالذكاء الاصطناعي</button><button class="btn secondary" id="savePhotoManual">تسجيل كتقدير يدوي</button></div>
+      <div id="aiResult" class="ai-result hidden"></div>
+    </div>
+    <div class="card">
+      <div class="card-heading"><div><h2>＋ إضافة طعام يدويًا</h2><p>اختر الطعام وحدد الكمية لتقدير الماكروز.</p></div></div>
+      <div class="form-row"><label>الطعام<select id="foodSelect"></select></label><label>الكمية (غ)<input id="foodGrams" type="number" min="1" value="100"></label></div>
+      <div id="foodEstimate" class="estimate"></div>
+      <button class="btn primary full" id="addFood">إضافة إلى سجل اليوم</button>
+    </div>
+    <div class="card">
+      <div class="section-title compact"><div><h2>وجبات اليوم</h2><p id="mealDate"></p></div><button class="text-btn" id="clearMeals">مسح اليوم</button></div>
+      <div id="mealList" class="list-empty">لا توجد وجبات مسجلة اليوم.</div>
+    </div>
+  </section>
+
+  <section class="view" id="view-workout">
+    <div class="page-heading"><span class="eyebrow">تدريب المقاومة</span><h1>برنامج 4 أيام</h1><p>Upper / Lower مع تسجيل المجموعات والتكرارات والأوزان.</p></div>
+    <div class="notice">⚠️ إذا ما زال ألم قصبة الساق أو تشنج البطة موجودًا، أوقف أي تمرين يثير الألم واطلب تقييمًا طبيًا قبل تحميل الساقين. لا تبدأ الجري المؤلم.</div>
+    <div class="day-picker" id="dayPicker">
+      <button class="day-btn selected" data-day="0"><b>1</b><small>علوي A</small></button><button class="day-btn" data-day="1"><b>2</b><small>سفلي A</small></button><button class="day-btn" data-day="2"><b>3</b><small>علوي B</small></button><button class="day-btn" data-day="3"><b>4</b><small>سفلي B</small></button>
+    </div>
+    <div class="card">
+      <div class="card-heading"><div><h2 id="workoutTitle">اليوم 1 — الجزء العلوي A</h2><p>سجّل الوزن والتكرارات لكل تمرين.</p></div><span class="tag">45–70 دقيقة</span></div>
+      <div id="exerciseList"></div>
+      <div class="form-row"><label>مدة التمرين (دقيقة)<input id="workoutMinutes" type="number" min="1" value="60"></label><label>ملاحظات<textarea id="workoutNotes" rows="2" placeholder="كيف كان أداؤك؟"></textarea></label></div>
+      <button class="btn primary full" id="saveWorkout">حفظ جلسة اليوم</button>
+      <div id="workoutFeedback" class="feedback"></div>
+    </div>
+  </section>
+
+  <section class="view" id="view-progress">
+    <div class="page-heading"><span class="eyebrow">القياسات والاتجاهات</span><h1>تقدمك بمرور الوقت</h1><p>استخدم القياسات الأسبوعية بدل الحكم من يوم واحد.</p></div>
+    <div class="card">
+      <h2>تسجيل قياس جديد</h2>
+      <div class="form-row"><label>الوزن (كغ)<input id="weightInput" type="number" min="30" max="300" step=".1" value="93"></label><label>محيط الخصر (سم)<input id="waistInput" type="number" min="40" max="200" step=".1" placeholder="اختياري"></label></div>
+      <label>التاريخ<input id="measureDate" type="date"></label>
+      <button class="btn primary full" id="saveMeasurement">حفظ القياس</button>
+    </div>
+    <div class="card">
+      <div class="section-title compact"><div><h2>سجل القياسات</h2><p>آخر 12 قراءة</p></div><button class="text-btn" id="exportData">تصدير البيانات</button></div>
+      <div id="measurementList" class="list-empty">لا توجد قياسات محفوظة.</div>
+    </div>
+    <div class="card">
+      <h2>ملخص آخر 7 أيام</h2>
+      <div class="weekly-grid"><div><span class="muted">متوسط السعرات</span><strong id="avgCalories">—</strong></div><div><span class="muted">جلسات التمرين</span><strong id="weeklyWorkouts">0</strong></div><div><span class="muted">تغيّر الوزن</span><strong id="weeklyWeightChange">—</strong></div></div>
+      <p class="footnote">لخسارة الدهون مع الحفاظ على العضلات، استهدف نزولًا تدريجيًا قرابة 0.25–0.5 كغ أسبوعيًا. إذا تغيّر الوزن بسرعة أو تراجع الأداء، أعد تقييم السعرات.</p>
+    </div>
+  </section>
+</main>
+
+<nav class="bottom-nav"><button class="active" data-tab="home"><span>⌂</span>الرئيسية</button><button data-tab="food"><span>◉</span>الغذاء</button><button data-tab="workout"><span>▤</span>التمرين</button><button data-tab="progress"><span>↗</span>التقدم</button></nav>
+
+<div class="modal hidden" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+  <div class="modal-panel"><div class="modal-head"><h2 id="settingsTitle">الإعدادات والأهداف</h2><button class="icon-btn" id="closeSettings">✕</button></div>
+    <p class="muted">عدّل أهدافك عند الحاجة. البيانات تُحفظ محليًا على هذا الجهاز.</p>
+    <div class="form-row"><label>السعرات اليومية<input id="targetCalories" type="number" min="1000" max="6000" value="2700"></label><label>البروتين (غ)<input id="targetProtein" type="number" min="50" max="350" value="180"></label></div>
+    <div class="form-row"><label>الكربوهيدرات (غ)<input id="targetCarbs" type="number" min="50" max="700" value="315"></label><label>الدهون (غ)<input id="targetFat" type="number" min="20" max="250" value="80"></label></div>
+    <label>عنوان خدمة تحليل الطعام (اختياري)<input id="aiEndpoint" type="url" placeholder="https://your-server.example/analyze-food"></label>
+    <p class="footnote">عنوان الخدمة يجب أن يكون خادمًا موثوقًا عبر HTTPS يستقبل صورة باسم <code>image</code> وكمية باسم <code>grams</code> ويعيد JSON. لا تضع مفتاح API سريًا داخل التطبيق.</p>
+    <div class="button-row"><button class="btn primary" id="saveSettings">حفظ الإعدادات</button><button class="btn secondary" id="resetData">مسح كل البيانات</button></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script src="app.js"></script>
+</body></html>
